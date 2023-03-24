@@ -1,0 +1,46 @@
+import { Store } from "tauri-plugin-store-api";
+import { writable } from "svelte/store";
+
+const tauriStore = new Store("db.dat");
+export const notes = createStore();
+
+function createStore() {
+  let store = writable([], (set) => {
+    async function load() {
+      const notes = await tauriStore.get("notes");
+      set(notes || []);
+    }
+
+    load();
+
+    return () => {};
+  });
+
+  return {
+    subscribe: store.subscribe,
+    addNote: (note) => {
+      store.update((data) => {
+        data.unshift(note);
+        tauriStore.set("notes", data).then(() => tauriStore.save());
+        return data;
+      });
+    },
+    deleteNote: (id) => {
+      store.update((data) => {
+        const inx = data.findIndex((note) => note.id === id);
+        data.splice(inx, 1);
+        tauriStore.set("notes", data).then(() => tauriStore.save());
+        return data;
+      });
+    },
+    updateNote: (note) => {
+      store.update((data) => {
+        const inx = data.findIndex((n) => n.id === note.id);
+        console.log(inx);
+        data[inx] = note;
+        tauriStore.set("notes", data).then(() => tauriStore.save());
+        return data;
+      });
+    },
+  };
+}
