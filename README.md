@@ -1,5 +1,5 @@
 # Note Ninja
-Note Ninja is a simple note-taking desktop app created with Rust and Svelte. It is designed to be an alternative to Google Keep and was developed as part of an educational training exercise.
+Note Ninja is a Rust and Svelte-based desktop app that serves as an alternative to Google Keep. The app was created with the goal of improving Rust and Svelte knowledge through the implementation of a real-world application.
 
 ![Screenshot](https://raw.githubusercontent.com/prakashrx/note-ninja/main/screenshots/screenshot.jpg)
 
